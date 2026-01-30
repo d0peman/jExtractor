@@ -1,52 +1,28 @@
-# jdownloader-link_extractor
-![JDownloader 2](https://github.com/roman-kojnok/jdownloader-link_extractor/blob/main/images/jd2.png)
-[JDownloader Homepage](https://jdownloader.org/home/index)
-## Description
+# JDownloader Package Link Exporter
 
-jdownloader-link_extractor is an advanced Python script, that will extract all links from a **JDownloader 2** file list and export them to a text file.
+A Python script that extracts links from JDownloader’s internal state archives and exports them into **per-package CSV files**, **only when a package contains more than one link**.
 
-# Thanks to
-[hherglotz](https://github.com/hherglotz/linkextractor)
-for an idea and his source code, which I used as the base of this project.
+It supports both:
+- **LinkGrabber lists** (`linkcollector*.zip`)
+- **Download lists** (`downloadList*.zip`)
 
-## What jdownloader-link_extractor does
-- Firstly, after executing the script, it will detect, which OS you are using for setting the **JDownloader Installation Directory PATH**.
-- Secondly, the script will sort all **downloadListXXX.zip** files in the **JDownloader config** dir by date and the recent file will copy and extract to a temporary created folder **temp**.
-- Next, it will extract links from all the files in **temp** and saves them to **my_jd_links.txt** file in the JD-backup directory.
-- Finally, the script will delete the **temp** folder.
+This is intended for inspection, auditing, migration, or external processing of JDownloader link data.
 
-**Note:** No matters where is the script running from. 
+---
 
+## Features
 
-## Prerequisites
-**Default Installation PATH of JDownloader**
-- If you haven't installed Python on your system yet, get it directly at (https://www.python.org/).
-- jdownloader-link_extractor uses libraries `os`, `platform`, `glob`, `shutil`, `zipfile` and `json`.
+- ✅ Automatically locates the JDownloader `cfg` directory (Windows, macOS, Linux)
+- ✅ Supports **both** `linkcollector` and `downloadList` archives
+- ✅ Correctly handles **different internal JSON schemas**
+- ✅ Groups links by their **actual JDownloader package**
+- ✅ Exports **one CSV per package**
+- ✅ **Skips single-link packages** (noise-free output)
+- ✅ Windows-safe CSV filenames
+- ✅ Cleans up all temporary files
 
-## Tests:
-**jdownloader-link_extractor** has already been tested on Windows 7, Mac OS Big Sur and Debian Buster with Python 3.8 version, but any version of python3 should work as well.
-I haven't found any differencies during an extraction, either JDownloader 2 was running or not.
+---
 
-## Installation
-No special installation is needed. 
+## Output
 
-## Run the program
-
-1. Open a terminal: 
-
-- On Windows by pressing `WinKey + R` and then type `cmd` and `Enter`.
-- On Mac OS by pressing `Control + Backspace` then type `terminal` and press `Enter`.
-- On Linux by pressing `Control + Alt + T`.
-
-2. Navigate to the `jdownloader-link_extractor-main` directory.
-
-3. Then run the script by the command `python3 get-jd-links.py`. 
-
-4. Once it's done, you will find a new file called `my_jd_links.txt` in the `jdownloader-link_extractor-main` directory.
-
-**Note:**
-If you run the script again, the `my_jd_links.txt` file will be overwritten.
-
-
-## Recovery
-Just run jDownloader 2, open `my_jd_links.txt` file, sellect all `Control + A` then copy `Control + C` and JDownloader will import all copied links by its self.
+Only packages containing **more than one link** are exported.
